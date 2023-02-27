@@ -6,13 +6,15 @@ const options = {
 };
 
 let dataArr = [];
-
 const initColor = document.getElementById("init-color");
 const mode = document.getElementById("mode");
 
 document.getElementById("get-color").addEventListener("click", (e) => {
   e.preventDefault();
+  renderColors();
+});
 
+const renderColors = () => {
   fetch(
     `https://www.thecolorapi.com/scheme?hex=${initColor.value.substring(
       1
@@ -21,18 +23,15 @@ document.getElementById("get-color").addEventListener("click", (e) => {
     .then((res) => res.json())
     .then((data) => {
       dataArr = data.colors;
+      document.getElementById("color-container").innerHTML = dataArr
+        .map((color) => {
+          return `<div class='color ${color.name.value}' id="${color.name.value}">
+                      <img class="color-img" src="${color.image.named}"></img>
+                      <p>${color.hex.value}</p>
+                    </div>`;
+        })
+        .join("");
     });
-  renderColors();
-});
-
-const renderColors = () => {
-  const dataHtml = dataArr
-    .map((color) => {
-      return `<div class="color" id="${color.name.value}">
-      <img class="color-img" src="${color.image.named}"></img>
-      <p>${color.hex.value}</p>
-      </div>`;
-    })
-    .join();
-  document.getElementById("color-container").innerHTML = dataHtml;
 };
+
+renderColors();
