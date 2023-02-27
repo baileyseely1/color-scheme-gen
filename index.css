@@ -15,7 +15,6 @@ body {
   margin: 0 auto;
   background-color: #1f2937;
   padding: 1em;
-  border: 1px solid black;
 }
 
 form {
@@ -35,7 +34,6 @@ input {
 
 select {
   border-radius: 5px;
-  border: 1.5px solid whitesmoke;
   background-color: #1f2937;
   color: whitesmoke;
   margin-left: 1em;
@@ -55,13 +53,25 @@ button {
 
 .color-container {
   display: flex;
-  width: 55%;
+  width: 50%;
   margin: 1em auto;
 }
 
 .color {
-  height: 800px;
-  width: 250px;
+  height: 400px;
   background-color: white;
   border: 1px solid black;
+  margin: 0;
+}
+
+.color-img {
+  height: 85%;
+  width: 100%;
+}
+
+div p {
+  font-weight: bold;
+  text-align: center;
+  font-size: 2rem;
+  margin: 0;
 }
