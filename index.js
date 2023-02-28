@@ -29,8 +29,8 @@ function handleCopyToClip() {
     const elNameValue = document.getElementById(element.name.value);
     elNameValue.addEventListener("click", () => {
       if (!document.getElementById("copy-div")) {
+        initColor.setAttribute("value", element.hex.value);
         node.setAttribute("id", "copy-div");
-
         textnode.textContent = `🪄 copied ${element.hex.value} to clipboard `;
         node.appendChild(textnode);
         elNameValue.appendChild(node);
@@ -67,6 +67,8 @@ const renderColors = () => {
           const randNameVal = document.getElementById(color.name.value);
           randNameVal.addEventListener("click", () => {
             if (!document.getElementById("copy-div")) {
+              initColor.setAttribute("value", "#" + newColor);
+
               navigator.clipboard.writeText("#" + newColor);
               const node = document.createElement("div");
               node.setAttribute("id", "copy-div");
