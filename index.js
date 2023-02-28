@@ -64,16 +64,16 @@ const renderColors = () => {
 
       if (randomColor) {
         dataArr.forEach((color) => {
-          const elNameVal = document.getElementById(color.name.value);
-          elNameVal.addEventListener("click", () => {
+          const randNameVal = document.getElementById(color.name.value);
+          randNameVal.addEventListener("click", () => {
             if (!document.getElementById("copy-div")) {
               navigator.clipboard.writeText("#" + newColor);
               const node = document.createElement("div");
               node.setAttribute("id", "copy-div");
               const textnode = document.createElement("p");
-              textnode.textContent = `🪄 copied ${newColor} to clipboard `;
+              textnode.textContent = `🪄 copied #${newColor} to clipboard `;
               node.appendChild(textnode);
-              elNameVal.appendChild(node);
+              randNameVal.appendChild(node);
               setTimeout(() => {
                 elNameVal.removeChild(node);
               }, 2000);
