@@ -24,6 +24,31 @@ document.getElementById("get-random").addEventListener("click", () => {
   renderColors();
 });
 
+function handleRandomCopyToClip() {
+  dataArr.forEach((color) => {
+    const randNameVal = document.getElementById(color.name.value);
+    randNameVal.addEventListener("click", () => {
+      if (!document.getElementById("copy-div")) {
+        initColor.setAttribute("value", "#" + newColor);
+        navigator.clipboard.writeText("#" + newColor);
+        const node = document.createElement("div");
+        node.setAttribute("id", "copy-div");
+        const textnode = document.createElement("p");
+        textnode.textContent = `🪄 copied #${newColor} to clipboard `;
+        node.appendChild(textnode);
+        randNameVal.appendChild(node);
+        setTimeout(() => {
+          randNameVal.removeChild(node);
+        }, 2000);
+      }
+    });
+    const newColor = generateRandomColors(1);
+    document.getElementById(color.name.value).style.backgroundColor =
+      "#" + newColor;
+    document.getElementById(color.hex.value).textContent = "#" + newColor;
+  });
+}
+
 function handleCopyToClip() {
   dataArr.forEach((element) => {
     const elNameValue = document.getElementById(element.name.value);
@@ -45,7 +70,7 @@ function handleCopyToClip() {
   });
 }
 
-const renderColors = () => {
+function renderColors() {
   fetch(
     `https://www.thecolorapi.com/scheme?hex=${initColor.value.substring(
       1
@@ -63,33 +88,11 @@ const renderColors = () => {
         .join("");
 
       if (randomColor) {
-        dataArr.forEach((color) => {
-          const randNameVal = document.getElementById(color.name.value);
-          randNameVal.addEventListener("click", () => {
-            if (!document.getElementById("copy-div")) {
-              initColor.setAttribute("value", "#" + newColor);
-
-              navigator.clipboard.writeText("#" + newColor);
-              const node = document.createElement("div");
-              node.setAttribute("id", "copy-div");
-              const textnode = document.createElement("p");
-              textnode.textContent = `🪄 copied #${newColor} to clipboard `;
-              node.appendChild(textnode);
-              randNameVal.appendChild(node);
-              setTimeout(() => {
-                randNameVal.removeChild(node);
-              }, 2000);
-            }
-          });
-          const newColor = generateRandomColors(1);
-          document.getElementById(color.name.value).style.backgroundColor =
-            "#" + newColor;
-          document.getElementById(color.hex.value).textContent = "#" + newColor;
-        });
+        handleRandomCopyToClip();
       } else {
         handleCopyToClip();
       }
     });
-};
+}
 
 renderColors();
