@@ -1,3 +1,5 @@
+import { generateRandomColors } from "/utils.js";
+
 const options = {
   method: "GET",
   headers: {
@@ -6,13 +8,31 @@ const options = {
 };
 
 let dataArr = [];
+let randomColor = false;
 const initColor = document.getElementById("init-color");
 const mode = document.getElementById("mode");
 
-document.getElementById("get-color").addEventListener("click", (e) => {
-  e.preventDefault();
-  renderColors();
-});
+function handleCopyToClip() {
+  dataArr.forEach((element) => {
+    const elNameValue = document.getElementById(element.name.value);
+    elNameValue.addEventListener("click", () => {
+      if (!document.getElementById("copy-div")) {
+        const node = document.createElement("div");
+        node.setAttribute("id", "copy-div");
+        const textnode = document.createElement("p");
+        textnode.textContent = `🪄 copied ${element.hex.value} to clipboard `;
+        node.appendChild(textnode);
+        elNameValue.appendChild(node);
+        setTimeout(() => {
+          elNameValue.removeChild(node);
+        }, 2000);
+      }
+      navigator.clipboard.writeText(element.hex.value);
+    });
+    elNameValue.style.backgroundColor = element.hex.value;
+    document.getElementById(element.hex.value).textContent = element.hex.value;
+  });
+}
 
 const renderColors = () => {
   fetch(
@@ -26,12 +46,33 @@ const renderColors = () => {
       document.getElementById("color-container").innerHTML = dataArr
         .map((color) => {
           return `<div class='color ${color.name.value}' id="${color.name.value}">
-                      <img class="color-img" src="${color.image.named}"></img>
-                      <p>${color.hex.value}</p>
+                      <p id="${color.hex.value}">${color.hex.value}</p>
                     </div>`;
         })
         .join("");
+
+      handleCopyToClip();
+
+      if (randomColor) {
+        dataArr.forEach((color) => {
+          const newColor = generateRandomColors(1);
+          document.getElementById(color.name.value).style.backgroundColor =
+            "#" + newColor;
+          document.getElementById(color.hex.value).textContent = "#" + newColor;
+        });
+      }
     });
 };
+
+document.getElementById("get-color").addEventListener("click", (e) => {
+  e.preventDefault();
+  renderColors();
+  randomColor = false;
+});
+
+document.getElementById("get-random").addEventListener("click", () => {
+  randomColor = true;
+  renderColors();
+});
 
 renderColors();
