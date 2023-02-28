@@ -75,7 +75,7 @@ const renderColors = () => {
               node.appendChild(textnode);
               randNameVal.appendChild(node);
               setTimeout(() => {
-                elNameVal.removeChild(node);
+                randNameVal.removeChild(node);
               }, 2000);
             }
           });
