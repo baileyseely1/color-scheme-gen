@@ -1,1 +1,3 @@
-Color scheme generator / coolors clone made with vanilla HTML/CSS/JS to practice working with API's and fetching data
+## Color scheme generator made with vanilla HTML/CSS/JS 
+### Made to practice working with API's / fetching data.. Users can generate new scheme, copy color of choice to clipboard and have that color be the default input for a new scheme
+ 
