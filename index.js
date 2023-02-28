@@ -2,10 +2,10 @@ import { generateRandomColors } from "/utils.js";
 
 let dataArr = [];
 let randomColor = false;
-const initColor = document.getElementById("init-color");
-const node = document.createElement("div");
 let textnode = document.createElement("p");
+const node = document.createElement("div");
 const mode = document.getElementById("mode");
+const initColor = document.getElementById("init-color");
 const options = {
   method: "GET",
   headers: {
