@@ -25,9 +25,9 @@ document.getElementById("get-random").addEventListener("click", () => {
 });
 
 function handleRandomCopyToClip() {
-  dataArr.forEach((color) => {
-    const randNameVal = document.getElementById(color.name.value);
-    randNameVal.addEventListener("click", () => {
+  dataArr.forEach((element) => {
+    const elNameValue = document.getElementById(element.name.value);
+    elNameValue.addEventListener("click", () => {
       if (!document.getElementById("copy-div")) {
         initColor.setAttribute("value", "#" + newColor);
         navigator.clipboard.writeText("#" + newColor);
@@ -36,16 +36,16 @@ function handleRandomCopyToClip() {
         const textnode = document.createElement("p");
         textnode.textContent = `🪄 copied #${newColor} to clipboard `;
         node.appendChild(textnode);
-        randNameVal.appendChild(node);
+        elNameValue.appendChild(node);
         setTimeout(() => {
-          randNameVal.removeChild(node);
+          elNameValue.removeChild(node);
         }, 2000);
       }
     });
     const newColor = generateRandomColors(1);
-    document.getElementById(color.name.value).style.backgroundColor =
+    document.getElementById(element.name.value).style.backgroundColor =
       "#" + newColor;
-    document.getElementById(color.hex.value).textContent = "#" + newColor;
+    document.getElementById(element.hex.value).textContent = "#" + newColor;
   });
 }
 
@@ -70,29 +70,26 @@ function handleCopyToClip() {
   });
 }
 
-function renderColors() {
-  fetch(
+async function renderColors() {
+  const res = await fetch(
     `https://www.thecolorapi.com/scheme?hex=${initColor.value.substring(
       1
     )}&count=5&mode=${mode.value}`
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      dataArr = data.colors;
-      document.getElementById("color-container").innerHTML = dataArr
-        .map((color) => {
-          return `<div class='color ${color.name.value}' id="${color.name.value}">
+  );
+  const data = await res.json();
+  dataArr = data.colors;
+  document.getElementById("color-container").innerHTML = dataArr
+    .map((color) => {
+      return `<div class='color ${color.name.value}' id="${color.name.value}">
                       <p id="${color.hex.value}">${color.hex.value}</p>
                     </div>`;
-        })
-        .join("");
-
-      if (randomColor) {
-        handleRandomCopyToClip();
-      } else {
-        handleCopyToClip();
-      }
-    });
+    })
+    .join("");
+  if (randomColor) {
+    handleRandomCopyToClip();
+  } else {
+    handleCopyToClip();
+  }
 }
 
 renderColors();
